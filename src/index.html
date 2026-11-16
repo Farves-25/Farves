@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Farves</title>
+  <title>Farves Safiyudeen — Angular Frontend Engineer</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="description" content="Farves Safiyudeen is an Angular frontend engineer with 3.5+ years of experience building fast, accessible production web applications. Open to remote and relocation worldwide.">
+  <meta name="theme-color" content="#0b0b0c">
+  <meta property="og:title" content="Farves Safiyudeen — Angular Frontend Engineer">
+  <meta property="og:description" content="Fast, accessible Angular applications — and the systems that keep them that way.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <script>
+    (function (root) {
+      root.classList.add('js');
+      if (location.hash || location.pathname.indexOf('/work/') === 0) root.classList.add('no-intro');
+      try {
+        var saved = (localStorage.getItem('accent') || '').split(',');
+        var hex = /^#[0-9a-f]{6}$/;
+        if (hex.test(saved[0]) && hex.test(saved[1])) {
+          root.style.setProperty('--accent', saved[0]);
+          root.style.setProperty('--accent-ink', saved[1]);
+        }
+      } catch (e) {}
+    })(document.documentElement);
+  </script>
 </head>
 <body>
   <app-root></app-root>
