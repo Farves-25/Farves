@@ -9,6 +9,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { Magnetic, Reveal, Scramble, Tilt } from '../core/directives';
@@ -25,7 +26,7 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
  */
 @Component({
   selector: 'app-project',
-  imports: [RouterLink, Reveal, Scramble, Tilt, Magnetic, Cursor],
+  imports: [RouterLink, Reveal, Scramble, Tilt, Magnetic, Cursor, NgOptimizedImage],
   styleUrl: './project.css',
   template: `
     <header class="bar">
@@ -42,9 +43,8 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
         <section class="intro" aria-labelledby="project-title">
           <p class="label crumbs">
             <span>Case study {{ pad(index() + 1) }} / {{ pad(total) }}</span>
-            <span class="flag">Sample content</span>
           </p>
-          <h1 class="title" id="project-title">
+          <h1 class="title" id="project-title" [style.--n]="letters().length">
             <span class="sr-only">{{ item.name }}</span>
             <span class="letters" aria-hidden="true">
               @for (ch of letters(); track $index) {
@@ -75,20 +75,12 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
         </section>
 
         <!-- Cover -->
-        <div class="cover" #cover aria-hidden="true">
+        <div class="cover" #cover>
           <div class="art">
-            <span class="numeral">{{ pad(index() + 1) }}</span>
+            <span class="numeral" aria-hidden="true">{{ pad(index() + 1) }}</span>
             <div class="window">
-              <div class="chrome"><i></i><i></i><i></i></div>
-              <div class="screen">
-                <div class="side"><b></b><b></b><b></b><b></b><b></b></div>
-                <div class="pane">
-                  <div class="tiles"><u></u><u></u><u></u></div>
-                  <div class="chart">
-                    <s></s><s></s><s></s><s></s><s></s><s></s><s></s><s></s><s></s><s></s>
-                  </div>
-                </div>
-              </div>
+              <div class="chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+              <img class="shot" [ngSrc]="item.image" width="2400" height="1500" priority [alt]="item.imageAlt" />
             </div>
           </div>
         </div>
@@ -124,15 +116,13 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
         <section class="shots" aria-labelledby="project-screens">
           <h2 class="label" id="project-screens" appReveal appScramble>(04) — Screens</h2>
           <ul>
-            @for (shot of item.shots; track shot) {
+            @for (shot of item.shots; track shot.src) {
               <li [appReveal]="$index * 100">
                 <figure>
-                  <div class="frame" appTilt aria-hidden="true">
-                    <div class="mock" [class]="'v' + ($index % 3)">
-                      <b></b><b></b><b></b><b></b><b></b><b></b>
-                    </div>
+                  <div class="frame" appTilt>
+                    <img [ngSrc]="shot.src" width="2400" height="1500" [alt]="item.name + ' — ' + shot.caption" />
                   </div>
-                  <figcaption class="label">{{ pad($index + 1) }} — {{ shot }}</figcaption>
+                  <figcaption class="label">{{ pad($index + 1) }} — {{ shot.caption }}</figcaption>
                 </figure>
               </li>
             }
@@ -152,7 +142,6 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
                 </div>
               }
             </dl>
-            <p class="label fine" appReveal="300">Figures are placeholders until the real case study lands.</p>
           </div>
         </section>
 

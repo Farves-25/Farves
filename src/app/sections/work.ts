@@ -6,6 +6,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Reveal, Scramble, Tilt } from '../core/directives';
 import { Box, Motion, clamp } from '../core/motion';
@@ -17,7 +18,7 @@ import { projects } from '../data/content';
  */
 @Component({
   selector: 'app-work',
-  imports: [Reveal, Scramble, Tilt, RouterLink],
+  imports: [Reveal, Scramble, Tilt, RouterLink, NgOptimizedImage],
   host: { tabindex: '-1' },
   template: `
     <section class="pin" aria-labelledby="work-title">
@@ -32,7 +33,7 @@ import { projects } from '../data/content';
           <p class="label count" aria-hidden="true">
             <span class="now">0{{ active() }}</span> / 0{{ projects.length }}
           </p>
-          <p class="note">Sample projects for now — open one to see the case-study layout.</p>
+          <p class="note">Four products I designed and built end to end — open one for the full case study.</p>
         </div>
       </header>
 
@@ -52,18 +53,16 @@ import { projects } from '../data/content';
                     <span class="numeral">0{{ $index + 1 }}</span>
                     <div class="window">
                       <div class="chrome"><i></i><i></i><i></i></div>
-                      <div class="screen">
-                        <div class="side"><b></b><b></b><b></b><b></b></div>
-                        <div class="pane">
-                          <div class="chart">
-                            <s></s><s></s><s></s><s></s><s></s><s></s><s></s><s></s>
-                          </div>
-                          <div class="rows"><u></u><u></u><u></u></div>
-                        </div>
-                      </div>
+                      <img
+                        class="shot"
+                        [ngSrc]="project.image"
+                        width="2400"
+                        height="1500"
+                        alt=""
+                      />
                     </div>
                   </div>
-                  <span class="label badge">Sample case study</span>
+                  <span class="label badge">Case study</span>
                 </div>
                 <div class="meta">
                   <h3>{{ project.name }}</h3>
@@ -244,8 +243,9 @@ import { projects } from '../data/content';
 
     .window {
       position: relative;
-      width: 58%;
-      aspect-ratio: 16 / 10.5;
+      width: 76%;
+      aspect-ratio: 16 / 10.6;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       border: 1px solid rgb(255 255 255 / 0.14);
@@ -276,78 +276,14 @@ import { projects } from '../data/content';
       background: var(--a);
     }
 
-    .screen {
+    .shot {
+      display: block;
       flex: 1;
-      display: grid;
-      grid-template-columns: 22% 1fr;
+      width: 100%;
       min-height: 0;
-    }
-
-    .side {
-      display: grid;
-      gap: 0.5rem;
-      align-content: start;
-      padding: 0.75rem;
-      border-right: 1px solid rgb(255 255 255 / 0.1);
-    }
-
-    .side b {
-      height: 0.4rem;
-      border-radius: 99px;
-      background: rgb(255 255 255 / 0.14);
-    }
-
-    .side b:first-child {
-      width: 70%;
-      background: var(--a);
-    }
-
-    .pane {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      min-height: 0;
-    }
-
-    .chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 6%;
-      min-height: 0;
-    }
-
-    .chart s {
-      flex: 1;
-      height: var(--h);
-      border-radius: 0.25rem 0.25rem 0 0;
-      background: linear-gradient(var(--a), color-mix(in oklab, var(--a) 25%, transparent));
-      transform-origin: bottom;
-      transition: transform 0.9s var(--ease);
-    }
-
-    .chart s:nth-child(1) { --h: 35%; }
-    .chart s:nth-child(2) { --h: 55%; }
-    .chart s:nth-child(3) { --h: 42%; }
-    .chart s:nth-child(4) { --h: 72%; }
-    .chart s:nth-child(5) { --h: 58%; }
-    .chart s:nth-child(6) { --h: 88%; }
-    .chart s:nth-child(7) { --h: 66%; }
-    .chart s:nth-child(8) { --h: 100%; }
-
-    .rows {
-      display: grid;
-      gap: 0.4rem;
-    }
-
-    .rows u {
-      height: 0.35rem;
-      border-radius: 99px;
-      background: rgb(255 255 255 / 0.12);
-    }
-
-    .rows u:last-child {
-      width: 60%;
+      object-fit: cover;
+      object-position: top left;
+      border-radius: 0 0 0.75rem 0.75rem;
     }
 
     .badge {
@@ -461,9 +397,6 @@ import { projects } from '../data/content';
         scale: 1.06;
       }
 
-      .card:hover .chart s:nth-child(odd) {
-        transform: scaleY(0.72);
-      }
     }
 
     @media (min-width: 800px) {

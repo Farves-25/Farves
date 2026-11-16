@@ -83,8 +83,12 @@ export interface Project {
   year: string;
   blurb: string;
   tags: readonly string[];
-  /** Two poster colours. */
+  /** Two accent colours used for the card glow and case-study theme. */
   palette: readonly [string, string];
+  /** Cover screenshot (path under /public). */
+  image: string;
+  /** Alt text for the cover screenshot. */
+  imageAlt: string;
 
   // ----- Case-study page -----
   role: string;
@@ -93,132 +97,194 @@ export interface Project {
   overview: string;
   challenge: string;
   approach: readonly { title: string; body: string }[];
-  /** Captions for the screen placeholders (swap the frames for real screenshots later). */
-  shots: readonly string[];
+  /** Screens shown on the case-study page: a screenshot plus its caption. */
+  shots: readonly { src: string; caption: string }[];
   outcome: string;
   results: readonly { value: string; label: string }[];
 }
 
 /**
- * PLACEHOLDER PROJECTS — replace with real case studies.
- * Each entry renders one card in the gallery and one page at /work/<slug>.
- * All text and figures below are sample content.
+ * Selected work. Each entry renders one card in the gallery and one page at /work/<slug>.
  */
 export const projects: readonly Project[] = [
   {
-    slug: 'pulse',
-    name: 'Pulse',
-    kind: 'Real-time analytics dashboard',
+    slug: 'polyglotstudio',
+    name: 'PolyGlotStudio',
+    kind: 'Language-learning platform',
     year: '2026',
-    blurb: 'Live operational metrics streamed over WebSockets into a signal-driven dashboard.',
-    tags: ['Angular', 'Signals', 'WebSockets'],
-    palette: ['#ff5a1f', '#7a1d00'],
-    role: 'Lead frontend engineer',
-    timeline: '4 months · 2026',
-    team: '2 engineers, 1 designer',
+    blurb:
+      'A language-acquisition app with live audio visualisers, speech verification and a spaced-repetition engine.',
+    tags: ['Angular', 'Signals', 'Tailwind CSS', 'Supabase'],
+    palette: ['#8b8bff', '#2a1f6b'],
+    image: '/work/polyglotstudio-cover.webp',
+    imageAlt: 'PolyGlotStudio landing page with a pocket phrasebook card showing a French phrase',
+    role: 'Frontend engineer — design & build',
+    timeline: '2026',
+    team: 'Solo project',
     overview:
-      'Pulse turns a firehose of operational events into a dashboard a team can read at a glance — updating live, without ever feeling busy.',
+      'PolyGlotStudio teaches real-life phrases in six languages — with native voices, pronunciation checks and a review schedule that adapts to what you forget.',
     challenge:
-      'Thousands of updates a second were re-rendering the whole screen. Charts stuttered, filters lagged, and the people relying on the numbers had stopped trusting them.',
+      'Language apps tend to be flashcards with a coat of paint. The goal was to make speaking, listening and grammar feel hands-on — in the browser, with no plugins, and in right-to-left scripts like Arabic as well.',
     approach: [
-      { title: 'Model the stream', body: 'One WebSocket feed, normalised into fine-grained signals so each tile only reacts to the data it shows.' },
-      { title: 'Render on a budget', body: 'Updates are batched per animation frame and charts draw to canvas, keeping interaction smooth under load.' },
-      { title: 'Design for glanceability', body: 'A strict hierarchy of colour and motion: only what changed, and only what matters, is allowed to move.' },
+      {
+        title: 'Hear it, say it, see it',
+        body: 'Canvas oscilloscope and a 48-band spectrum analyser visualise the microphone live, while a Levenshtein-based engine scores what the Web Speech API heard against the target phrase.',
+      },
+      {
+        title: 'Remembering, scheduled',
+        body: 'A SuperMemo SM-2 implementation decides when each card returns. Progress syncs to Supabase and falls back to a local cache when offline.',
+      },
+      {
+        title: 'Built for every script',
+        body: 'Grammar and phonetics labs, a minimal-pair drill and an AI roleplay arena all support bidirectional text, with a carefully tuned light and dark theme.',
+      },
     ],
-    shots: ['Live overview', 'Drill-down view', 'Alert rules'],
+    shots: [
+      { src: '/work/polyglotstudio-1.webp', caption: 'Dashboard & analytics' },
+      { src: '/work/polyglotstudio-2.webp', caption: 'Interactive voice studio' },
+      { src: '/work/polyglotstudio-3.webp', caption: 'Phonetics & IPA lab' },
+    ],
     outcome:
-      'The dashboard stays responsive at peak load, and it became the screen the team keeps open all day.',
+      'A complete learning environment — from first phrase to daily review — that runs entirely in the browser.',
     results: [
-      { value: '60fps', label: 'Sustained under live load' },
-      { value: '−48%', label: 'Time to first insight' },
-      { value: '12', label: 'Reusable chart components' },
+      { value: '6', label: 'Languages supported' },
+      { value: '420+', label: 'Real-life phrases' },
+      { value: '14', label: 'Life scenarios' },
     ],
   },
   {
-    slug: 'atlas',
-    name: 'Atlas',
-    kind: 'Design system & component library',
+    slug: 'pulsechat',
+    name: 'PulseChat',
+    kind: 'Realtime team chat',
     year: '2026',
-    blurb: 'An accessible, themeable component library with documented patterns and tokens.',
-    tags: ['Angular CDK', 'WCAG 2.1 AA', 'Design tokens'],
-    palette: ['#c8f560', '#1f4d2b'],
-    role: 'Design-system engineer',
-    timeline: '6 months · 2026',
-    team: '3 engineers, 2 designers',
+    blurb:
+      'A Slack-style workspace with channels, threads, mentions, reactions and a ⌘K command palette.',
+    tags: ['Angular', 'Supabase Realtime', 'CDK', 'Tailwind CSS'],
+    palette: ['#ff5a5f', '#5a1018'],
+    image: '/work/pulsechat-cover.webp',
+    imageAlt: 'PulseChat workspace showing the general channel with threaded replies and reactions',
+    role: 'Frontend engineer — design & build',
+    timeline: '2026',
+    team: 'Solo project',
     overview:
-      'Atlas is one shared language for several products: tokens, components and patterns that make the accessible choice the default one.',
+      'PulseChat is a realtime team-chat app: channels and DMs, threads in a side drawer, @mentions, reactions, pins, file sharing and presence — with a fully seeded demo workspace that needs no backend.',
     challenge:
-      'Every product had its own buttons, its own modals and its own accessibility bugs. Shipping a simple form meant rebuilding the same pieces again.',
+      'Chat is deceptively hard: long histories with variable-height messages, many things updating at once, and a UI that must stay readable while it moves. All of it had to feel instant.',
     approach: [
-      { title: 'Tokens first', body: 'Colour, type and spacing defined once as design tokens, themed per product without touching component code.' },
-      { title: 'Accessible primitives', body: 'Focus management, keyboard support and ARIA handled inside the components, built on the Angular CDK.' },
-      { title: 'Docs people use', body: 'Every component ships with live examples, do-and-don’t guidance and copy-paste snippets.' },
+      {
+        title: 'A list that never lags',
+        body: 'Variable-height virtual scrolling (CDK autosize) keeps long histories smooth, with day dividers, sender grouping and a jump-to-latest control.',
+      },
+      {
+        title: 'Realtime, end to end',
+        body: 'Supabase Realtime streams messages, reactions and channels; typing and presence travel over broadcast. Row-level security protects every table.',
+      },
+      {
+        title: 'Keyboard-first',
+        body: 'A ⌘K palette jumps to channels, people and actions; mention autocomplete, inline editing and shortcuts keep hands on the keys.',
+      },
     ],
-    shots: ['Component gallery', 'Theming playground', 'Usage guidelines'],
+    shots: [
+      { src: '/work/pulsechat-1.webp', caption: 'Sign-in & live demo' },
+      { src: '/work/pulsechat-2.webp', caption: 'Channels, threads & reactions' },
+      { src: '/work/pulsechat-3.webp', caption: 'Command palette' },
+    ],
     outcome:
-      'Teams ship consistent, accessible screens faster, and design reviews moved from pixels to product decisions.',
+      'A polished, responsive workspace that works the moment you open it — with or without a backend.',
     results: [
-      { value: '40+', label: 'Components documented' },
-      { value: 'AA', label: 'WCAG 2.1 across the library' },
-      { value: '3×', label: 'Faster screen delivery' },
+      { value: '5', label: 'Accent palettes, dark & light' },
+      { value: '⌘K', label: 'Command palette everywhere' },
+      { value: '0', label: 'Setup needed for the demo' },
     ],
   },
   {
-    slug: 'nimbus',
-    name: 'Nimbus',
-    kind: 'AI-assisted workspace',
+    slug: 'retrosync',
+    name: 'RetroSync',
+    kind: 'Live retrospective board',
     year: '2026',
-    blurb: 'A conversational workspace that streams model responses and tool calls into the UI.',
-    tags: ['Claude API', 'MCP', 'RxJS'],
-    palette: ['#8ea2ff', '#1c1f6b'],
-    role: 'Frontend engineer',
-    timeline: '3 months · 2026',
-    team: '2 engineers',
+    blurb:
+      'A real-time retro canvas with drag-and-drop cards, voting, presence and facilitator controls.',
+    tags: ['Angular CDK', 'Supabase', 'Realtime', 'Tailwind CSS'],
+    palette: ['#7c5cff', '#1a1250'],
+    image: '/work/retrosync-cover.webp',
+    imageAlt: 'RetroSync board with four columns of retrospective cards and a facilitator toolbar',
+    role: 'Frontend engineer — design & build',
+    timeline: '2026',
+    team: 'Solo project',
     overview:
-      'Nimbus is a workspace where people and an AI model work on the same document — with every response and tool call streamed into the interface as it happens.',
+      'RetroSync gives distributed teams a shared canvas for sprint retrospectives: cards that move live, votes that tally instantly, and a facilitator who can blur cards and run a timer.',
     challenge:
-      'Streaming text, long-running tool calls and user edits all arrive at once. Naive rendering made the UI jump, lose scroll position and occasionally lose work.',
+      'A retro only works if everyone sees the same board at the same moment. Drag-and-drop, voting and presence all had to stay in sync across tabs and people without conflicts.',
     approach: [
-      { title: 'Streams as state', body: 'RxJS pipelines turn token streams and tool events into predictable UI state with clear cancellation.' },
-      { title: 'Honest progress', body: 'Each tool call shows what it is doing and why, so waiting never feels like a frozen screen.' },
-      { title: 'Never lose work', body: 'Optimistic edits, local drafts and conflict-free merging between the person and the model.' },
+      {
+        title: 'Drag, drop, sync',
+        body: 'Angular CDK drag-drop moves cards between columns optimistically, then reconciles through Supabase Realtime so every participant converges on the same order.',
+      },
+      {
+        title: 'Facilitator controls',
+        body: 'Stealth mode hides card text until the reveal, a shared timer keeps discussion honest, and columns can be added or recoloured on the fly.',
+      },
+      {
+        title: 'Presence & voting',
+        body: 'Live avatars show who is in the room; one vote per person per card is enforced in the database, not just the UI.',
+      },
     ],
-    shots: ['Conversation view', 'Tool-call timeline', 'Shared document'],
+    shots: [
+      { src: '/work/retrosync-1.webp', caption: 'Workspace dashboard' },
+      { src: '/work/retrosync-2.webp', caption: 'Live retrospective board' },
+      { src: '/work/retrosync-3.webp', caption: 'Sign-in' },
+    ],
     outcome:
-      'Responses feel instant, long tasks stay legible, and people keep their place no matter how much is streaming in.',
+      'Retros that feel like standing at the same whiteboard — even when the team is in four time zones.',
     results: [
-      { value: '<100ms', label: 'To first streamed token on screen' },
-      { value: '0', label: 'Lost edits in testing' },
-      { value: '8', label: 'Tools integrated over MCP' },
+      { value: '4', label: 'Default retro columns' },
+      { value: '1', label: 'Vote per person, enforced by the DB' },
+      { value: 'Live', label: 'Cards, votes & presence' },
     ],
   },
   {
-    slug: 'vault',
-    name: 'Vault',
-    kind: 'Secure onboarding flow',
-    year: '2025',
-    blurb: 'A multi-step onboarding experience with resilient state and hardened auth.',
-    tags: ['NgRx', 'OAuth 2.0', 'Signal Forms'],
-    palette: ['#f3c9ff', '#5a1466'],
-    role: 'Frontend engineer',
-    timeline: '3 months · 2025',
-    team: '3 engineers, 1 designer',
+    slug: 'wandergrid',
+    name: 'WanderGrid',
+    kind: 'Live flight search',
+    year: '2026',
+    blurb:
+      'Search real flight schedules and prices, see if today’s fare is good, then book with the seller.',
+    tags: ['Angular', 'PWA', 'Node API', 'Tailwind CSS'],
+    palette: ['#ff8a5c', '#5a2410'],
+    image: '/work/wandergrid-cover.webp',
+    imageAlt: 'WanderGrid home page with the headline “Real flights. Real prices. Right now.” and a search form',
+    role: 'Full-stack engineer — design & build',
+    timeline: '2026',
+    team: 'Solo project',
     overview:
-      'Vault guides new customers through identity checks and account setup — a long, sensitive flow made to feel short and safe.',
+      'WanderGrid shows live Google Flights schedules and prices, tells you whether a fare is low, typical or high, and hands off to the airline or travel site that actually sells the ticket.',
     challenge:
-      'People dropped out half-way: a refresh lost their progress, errors were vague, and session timeouts sent them back to step one.',
+      'Flight data is heavy, quota-limited and sensitive: the API key must never reach the browser, searches cost money, and results still have to feel fast and trustworthy.',
     approach: [
-      { title: 'Resumable by design', body: 'Flow state lives in NgRx and is restored after a refresh, a timeout or a switch of device.' },
-      { title: 'Validation that helps', body: 'Schema-based forms explain what is wrong, in plain language, at the moment it matters.' },
-      { title: 'Hardened sessions', body: 'OAuth 2.0 with silent token refresh, route guards and interceptors that fail safely.' },
+      {
+        title: 'A thin, safe API',
+        body: 'A small Node server validates requests, calls SerpApi, normalises the response and caches searches, so the key stays server-side and repeats are free.',
+      },
+      {
+        title: 'Results you can judge',
+        body: 'Price insights, price history, layover and delay warnings, CO₂ comparison and flexible filters — across round-trip, one-way and multi-city.',
+      },
+      {
+        title: 'Yours to keep',
+        body: 'Saved trips and price alerts live on-device, prices convert across ten currencies, and the installable PWA reads saved trips offline.',
+      },
     ],
-    shots: ['Step-by-step flow', 'Document upload', 'Review & confirm'],
+    shots: [
+      { src: '/work/wandergrid-1.webp', caption: 'Popular destinations' },
+      { src: '/work/wandergrid-2.webp', caption: 'Flight search' },
+      { src: '/work/wandergrid-3.webp', caption: 'Accounts & price alerts' },
+    ],
     outcome:
-      'More people finish what they start, and support hears about onboarding far less often.',
+      'A fast, honest flight search that sends people to book directly — with no booking fees and no surprises.',
     results: [
-      { value: '+31%', label: 'Onboarding completion' },
-      { value: '−60%', label: 'Support tickets on sign-up' },
-      { value: '100%', label: 'Flows resumable after refresh' },
+      { value: '10', label: 'Display currencies' },
+      { value: '100+', label: 'Airports searchable' },
+      { value: 'PWA', label: 'Installable & offline-aware' },
     ],
   },
 ];
