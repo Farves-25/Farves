@@ -75,6 +75,14 @@ import { projects } from '../data/content';
                     <li class="label">{{ tag }}</li>
                   }
                 </ul>
+                <p class="links">
+                  <a class="label link primary" [href]="project.live" target="_blank" rel="noopener noreferrer"
+                    >Live preview <span aria-hidden="true">↗</span><span class="sr-only"> — {{ project.name }} (opens in a new tab)</span></a
+                  >
+                  <a class="label link" [href]="project.github" target="_blank" rel="noopener noreferrer"
+                    >GitHub <span aria-hidden="true">↗</span><span class="sr-only"> — {{ project.name }} source (opens in a new tab)</span></a
+                  >
+                </p>
               </article>
             </li>
           }
@@ -330,6 +338,42 @@ import { projects } from '../data/content';
       border: 1px solid var(--rule);
       border-radius: 99px;
       font-size: 0.65rem;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .link {
+      display: inline-block;
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--rule);
+      border-radius: 99px;
+      font-size: 0.65rem;
+      transition:
+        background-color 0.3s,
+        color 0.3s,
+        border-color 0.3s;
+    }
+
+    .link.primary {
+      background: var(--bone);
+      border-color: var(--bone);
+      color: var(--ink);
+    }
+
+    .link:hover,
+    .link:focus-visible {
+      border-color: currentColor;
+    }
+
+    .link.primary:hover,
+    .link.primary:focus-visible {
+      background: transparent;
+      color: var(--bone);
+      border-color: var(--bone);
     }
 
     .next a {

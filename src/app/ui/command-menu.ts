@@ -280,13 +280,18 @@ export class CommandMenu {
     })),
     { id: 'contact', group: 'Go to', label: 'Contact', run: () => this.motion.scrollTo('#contact') },
     { id: 'top', group: 'Go to', label: 'Back to top', run: () => this.motion.scrollTo('#top') },
-    {
-      id: 'email',
-      group: 'Hire',
-      label: 'Write me an email',
-      hint: profile.email,
-      run: () => this.visit(`mailto:${profile.email}`, false),
-    },
+    // Mouse-driven devices may have no mail app, so they only get "Copy email address".
+    ...(this.motion.finePointer
+      ? []
+      : [
+          {
+            id: 'email',
+            group: 'Hire',
+            label: 'Write me an email',
+            hint: profile.email,
+            run: () => this.visit(`mailto:${profile.email}`, false),
+          },
+        ]),
     {
       id: 'copy',
       group: 'Hire',

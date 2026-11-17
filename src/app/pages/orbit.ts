@@ -50,9 +50,17 @@ const joinList = (items: readonly string[]) =>
         </div>
 
         <div class="actions" appReveal="180">
-          <a class="mail" [href]="mailto()" appMagnetic="0.2" data-cursor="Send">
-            <span>{{ picked().length ? 'Send this brief' : p.email }}</span>
-            <span aria-hidden="true">↗</span>
+          <a
+            class="mail"
+            [class.static]="desktop()"
+            [attr.href]="desktop() ? null : mailto()"
+            [attr.data-cursor]="desktop() ? null : 'Send'"
+            [appMagnetic]="desktop() ? 0.0001 : 0.2"
+          >
+            <span>{{ picked().length && !desktop() ? 'Send this brief' : p.email }}</span>
+            @if (!desktop()) {
+              <span aria-hidden="true">↗</span>
+            }
           </a>
           <button type="button" class="label link" (click)="copy()">
             {{ copied() ? 'Copied to clipboard' : 'Copy email address' }}
@@ -204,6 +212,11 @@ const joinList = (items: readonly string[]) =>
       overflow-wrap: anywhere;
     }
 
+    .mail.static {
+      cursor: text;
+      user-select: text;
+    }
+
     .link {
       display: inline-block;
       padding-block: 0.35rem;
@@ -249,11 +262,13 @@ export class Finale {
   protected readonly theme = inject(Theme);
   protected readonly options = briefOptions;
   protected readonly copied = signal(false);
+  /** True on mouse-driven devices, where the address is shown but not linked. */
+  protected readonly desktop = signal(false);
   protected readonly picked = signal<readonly string[]>([]);
 
   protected readonly draft = computed(() => {
     const picked = this.picked();
-    if (!picked.length) return 'Hi Farves — pick a few and I’ll write the first line for you.';
+    if (!picked.length) return 'Pick what you’re looking for and your message to me will be drafted here.';
     return `Hi Farves — we’re looking for ${joinList(picked.map((item) => item[0].toLowerCase() + item.slice(1)))}. Let’s talk.`;
   });
 
@@ -266,6 +281,11 @@ export class Finale {
     );
     return `mailto:${this.p.email}?subject=${subject}&body=${body}`;
   });
+
+  constructor() {
+    const motion = inject(Motion);
+    afterNextRender(() => this.desktop.set(motion.finePointer));
+  }
 
   protected toggle(option: string): void {
     this.picked.update((picked) =>

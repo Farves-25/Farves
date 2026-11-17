@@ -7,6 +7,7 @@ import {
   effect,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
@@ -72,6 +73,15 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
               <dd>{{ item.tags.join(' · ') }}</dd>
             </div>
           </dl>
+
+          <p class="links">
+            <a class="label cta primary" [href]="item.live" target="_blank" rel="noopener noreferrer" appMagnetic="0.3"
+              >Live preview <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a
+            >
+            <a class="label cta" [href]="item.github" target="_blank" rel="noopener noreferrer" appMagnetic="0.3"
+              >View on GitHub <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a
+            >
+          </p>
         </section>
 
         <!-- Cover -->
@@ -168,7 +178,7 @@ const pad = (n: number) => `${n}`.padStart(2, '0');
 
     <footer class="base">
       <p class="label">© 2026 {{ me.firstName }} {{ me.lastName }}</p>
-      <a class="label" [href]="'mailto:' + me.email">{{ me.email }}</a>
+      <a class="label" [attr.href]="desktop() ? null : 'mailto:' + me.email">{{ me.email }}</a>
       <a class="label" routerLink="/" fragment="work">All work ↑</a>
     </footer>
 
@@ -182,6 +192,8 @@ export class Project {
   protected readonly me = profile;
   protected readonly total = projects.length;
   protected readonly pad = pad;
+  /** True on mouse-driven devices, where the address is shown but not linked. */
+  protected readonly desktop = signal(false);
 
   protected readonly index = computed(() => projects.findIndex((p) => p.slug === this.slug()));
   protected readonly project = computed(() => projects[this.index()]);
@@ -206,6 +218,7 @@ export class Project {
     });
 
     afterNextRender(() => {
+      this.desktop.set(motion.finePointer);
       theme.restore();
       // Coming back to the home page from here should not replay its intro curtain.
       doc.documentElement.classList.add('no-intro');

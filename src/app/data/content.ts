@@ -14,7 +14,7 @@ export const profile = {
   lead: 'I engineer fast, accessible Angular applications — and the systems that keep them that way.',
   socials: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/farves-safiyudeen-50300225a' },
-    { label: 'GitHub', href: 'https://github.com/Farves-dev' },
+    { label: 'GitHub', href: 'https://github.com/Farves-25' },
   ],
 } as const;
 
@@ -44,7 +44,7 @@ export const marquee = {
 
 /** Wrap a word in _underscores_ to set it in the italic serif accent. */
 export const manifesto =
-  "I'm an Angular engineer with 3.5+ years of shipping production software — multi-portal booking platforms, multi-tenant SaaS, and the component systems underneath them. I obsess over the things users _feel_ but _never_ _notice:_ an interface that answers instantly, a focus ring exactly where it should be, state that never lies.";
+  "I'm an Angular engineer with 3.5+ years of shipping production software in Agile teams — multi-portal booking platforms, multi-tenant SaaS, and the component systems underneath them. I obsess over the things users _feel_ but _never_ _notice:_ an interface that answers instantly, a focus ring exactly where it should be, state that never lies.";
 
 export interface Stat {
   value: number;
@@ -55,7 +55,7 @@ export interface Stat {
 
 export const stats: readonly Stat[] = [
   { value: 3.5, decimals: 1, suffix: '+', label: 'Years building production Angular' },
-  { value: 8, decimals: 0, suffix: '', label: 'Apps, portals & admin panels shipped' },
+  { value: 6, decimals: 0, suffix: '', label: 'Production portals & panels across 2 products' },
   { value: 2.1, decimals: 1, suffix: ' AA', label: 'WCAG standard every component meets' },
   { value: 4, decimals: 0, suffix: '', label: 'Anthropic AI certifications' },
 ];
@@ -89,6 +89,10 @@ export interface Project {
   image: string;
   /** Alt text for the cover screenshot. */
   imageAlt: string;
+  /** Deployed app. */
+  live: string;
+  /** Source repository. */
+  github: string;
 
   // ----- Case-study page -----
   role: string;
@@ -117,7 +121,9 @@ export const projects: readonly Project[] = [
     tags: ['Angular', 'Signals', 'Tailwind CSS', 'Supabase'],
     palette: ['#8b8bff', '#2a1f6b'],
     image: '/work/polyglotstudio-cover.webp',
-    imageAlt: 'PolyGlotStudio landing page with a pocket phrasebook card showing a French phrase',
+    imageAlt: 'PolyGlotStudio welcome page in light mode',
+    live: 'https://poly-glot-studio.vercel.app/',
+    github: 'https://github.com/Farves-25/PolyGlotStudio',
     role: 'Frontend engineer — design & build',
     timeline: '2026',
     team: 'Solo project',
@@ -163,6 +169,8 @@ export const projects: readonly Project[] = [
     palette: ['#ff5a5f', '#5a1018'],
     image: '/work/pulsechat-cover.webp',
     imageAlt: 'PulseChat workspace showing the general channel with threaded replies and reactions',
+    live: 'https://pulsechatwithyou.vercel.app/',
+    github: 'https://github.com/Farves-25/PulseChat',
     role: 'Frontend engineer — design & build',
     timeline: '2026',
     team: 'Solo project',
@@ -208,6 +216,8 @@ export const projects: readonly Project[] = [
     palette: ['#7c5cff', '#1a1250'],
     image: '/work/retrosync-cover.webp',
     imageAlt: 'RetroSync board with four columns of retrospective cards and a facilitator toolbar',
+    live: 'https://retrosyncboard.vercel.app/',
+    github: 'https://github.com/Farves-25/RetroSync',
     role: 'Frontend engineer — design & build',
     timeline: '2026',
     team: 'Solo project',
@@ -252,7 +262,9 @@ export const projects: readonly Project[] = [
     tags: ['Angular', 'PWA', 'Node API', 'Tailwind CSS'],
     palette: ['#ff8a5c', '#5a2410'],
     image: '/work/wandergrid-cover.webp',
-    imageAlt: 'WanderGrid home page with the headline “Real flights. Real prices. Right now.” and a search form',
+    imageAlt: 'WanderGrid home page in light mode with the headline “Real flights. Real prices. Right now.” and a search form',
+    live: 'https://wandergrid.vercel.app/',
+    github: 'https://github.com/Farves-25/WanderGrid',
     role: 'Full-stack engineer — design & build',
     timeline: '2026',
     team: 'Solo project',
@@ -275,9 +287,9 @@ export const projects: readonly Project[] = [
       },
     ],
     shots: [
-      { src: '/work/wandergrid-1.webp', caption: 'Popular destinations' },
-      { src: '/work/wandergrid-2.webp', caption: 'Flight search' },
-      { src: '/work/wandergrid-3.webp', caption: 'Accounts & price alerts' },
+      { src: '/work/wandergrid-1.webp', caption: 'Home & flight search' },
+      { src: '/work/wandergrid-2.webp', caption: 'Popular destinations' },
+      { src: '/work/wandergrid-3.webp', caption: 'Book at the source' },
     ],
     outcome:
       'A fast, honest flight search that sends people to book directly — with no booking fees and no surprises.',
@@ -297,13 +309,15 @@ export const experience = [
     place: 'Karaikal, India',
     note: 'Promoted to SE II',
     points: [
-      'Built the Angular frontend for a multi-portal event booking platform — a customer booking app plus dedicated organizer, vendor and admin panels.',
-      'Integrated Seats.io for interactive seating and crowd handling, giving customers a smooth seat-selection experience.',
-      'Delivered a multi-tenant school management SaaS covering the full student lifecycle, with a master admin panel for tenants and subscriptions.',
-      'Designed the RxJS and NgRx state-management approach and component conventions used across the team.',
-      'Mentor teammates on Angular, TypeScript and clean code through pair programming and reviews.',
+      'Developed the Angular frontend for a multi-portal event booking platform with 4 role-based portals — customer booking app, organizer, vendor and admin panels — and integrated Seats.io for interactive seat selection and crowd handling.',
+      'Built the Angular frontend for a multi-tenant school management SaaS, including a school admin panel covering the full student lifecycle, from admission to graduation.',
+      'Developed a master admin panel giving the platform owner central control over all tenant schools and their subscriptions, completing a 2-panel (master and school) admin architecture.',
+      'Own production modules built with Standalone Components, Signals and OnPush change detection, improving runtime performance alongside lazy loading.',
+      'Designed the RxJS and NgRx state-management approach and component conventions adopted across the team.',
+      'Built accessible UI to WCAG 2.1 AA; implemented JWT and OAuth 2.0 authentication, route guards and HTTP interceptors; wrote unit tests with Jasmine and Karma.',
+      'Mentor teammates on Angular, TypeScript and clean code through pair programming and code reviews; use Claude Code and the Claude API to speed up feature work and refactoring.',
     ],
-    tags: ['Angular', 'Signals', 'NgRx', 'Seats.io', 'JWT / OAuth 2.0', 'Jasmine'],
+    tags: ['Angular', 'Signals', 'OnPush', 'NgRx', 'Seats.io', 'JWT / OAuth 2.0', 'Jasmine', 'Claude Code'],
   },
   {
     period: 'Feb 2023 — Jun 2025',
@@ -312,11 +326,12 @@ export const experience = [
     place: 'Karaikal, India',
     note: '',
     points: [
-      "Redesigned the company's official website as a modern, responsive Angular experience across desktop, tablet and mobile.",
-      'Built a custom admin control panel so the team manages all site content without touching code.',
-      'Cut load times with lazy loading, route-level code splitting and asset compression.',
-      'Integrated REST APIs, JWT sessions and WebSocket-based real-time features.',
-      'Owned modules end to end: requirements, implementation, review, CI/CD and post-release monitoring.',
+      "Redesigned the company's official website as a responsive Angular application across 3 device classes (desktop, tablet, mobile), built from reusable components for easy maintenance.",
+      'Built a custom admin control panel so the team can manage 100% of website content without code changes.',
+      'Built responsive single-page applications from scratch with Angular, TypeScript and ES6+, converting Figma designs into cross-browser layouts.',
+      'Improved load performance with lazy loading, route-level code splitting and asset compression.',
+      'Integrated REST APIs, JWT session handling and WebSocket-based real-time features.',
+      'Owned modules across all 5 delivery stages: requirements, implementation, peer review, CI/CD deployment and post-release monitoring.',
     ],
     tags: ['Angular', 'TypeScript', 'REST', 'WebSockets', 'GitLab CI/CD', 'Figma'],
   },
@@ -325,23 +340,31 @@ export const experience = [
 export const stack = [
   {
     name: 'Frontend',
-    items: ['Angular 12 → latest', 'Signals', 'Standalone', 'RxJS', 'NgRx', 'TypeScript', 'SCSS'],
+    items: ['Angular 12 → latest', 'Angular CLI', 'Signals', 'Standalone', 'RxJS', 'NgRx', 'TypeScript', 'JavaScript ES6+', 'HTML5', 'CSS3', 'SCSS', 'AngularJS'],
   },
   {
     name: 'Interface',
-    items: ['Angular Material', 'Tailwind CSS', 'Responsive design', 'WCAG 2.1 AA', 'Figma'],
+    items: ['Angular Material', 'Tailwind CSS', 'Bootstrap', 'Responsive design', 'Cross-browser', 'WCAG 2.1 AA', 'Figma'],
   },
   {
     name: 'Architecture',
-    items: ['Component-driven', 'SOLID', 'Lazy loading', 'Micro-frontends'],
+    items: ['Component-driven', 'SOLID', 'Lazy loading', 'Code splitting', 'Micro-frontends', 'Performance optimisation'],
   },
   {
     name: 'Security & APIs',
-    items: ['REST', 'WebSockets', 'JWT', 'OAuth 2.0', 'Interceptors', 'Route guards'],
+    items: ['REST', 'WebSockets', 'JWT', 'OAuth 2.0', 'HTTP interceptors', 'Route guards', 'Authentication & authorization'],
   },
   {
-    name: 'Quality',
-    items: ['Jasmine', 'Karma', 'TDD', 'Code review', 'GitLab CI/CD', 'Docker'],
+    name: 'Testing',
+    items: ['Jasmine', 'Karma', 'Playwright', 'Unit testing', 'E2E testing', 'TDD'],
+  },
+  {
+    name: 'Tools & DevOps',
+    items: ['Git', 'GitHub', 'GitHub Actions', 'GitLab CI/CD', 'Webpack', 'npm', 'Docker (basic)', 'Postman', 'Confluence', 'VS Code'],
+  },
+  {
+    name: 'Ways of working',
+    items: ['Agile', 'Scrum', 'Kanban', 'Code review', 'Pair programming', 'Mentoring'],
   },
   {
     name: 'AI-assisted',

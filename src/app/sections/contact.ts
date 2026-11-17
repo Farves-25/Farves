@@ -51,11 +51,19 @@ const joinList = (items: readonly string[]) =>
           </div>
 
           <div class="actions" appReveal="120">
-            <a class="mail" [href]="mailto()" appMagnetic="0.2" data-cursor="Send">
-              <span class="mail-text">{{ picked().length ? 'Send this brief' : p.email }}</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 19L19 5M19 5H8M19 5v11" />
-              </svg>
+            <a
+              class="mail"
+              [class.static]="desktop()"
+              [attr.href]="desktop() ? null : mailto()"
+              [attr.data-cursor]="desktop() ? null : 'Send'"
+              [appMagnetic]="desktop() ? 0.0001 : 0.2"
+            >
+              <span class="mail-text">{{ picked().length && !desktop() ? 'Send this brief' : p.email }}</span>
+              @if (!desktop()) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 19L19 5M19 5H8M19 5v11" />
+                </svg>
+              }
             </a>
             <button type="button" class="label copy" (click)="copy()">
               {{ copied() ? 'Copied to clipboard' : 'Copy email address' }}
@@ -228,6 +236,12 @@ const joinList = (items: readonly string[]) =>
       rotate: 45deg;
     }
 
+    /* Desktop: no mail app guaranteed, so the address is display-only (copy button below). */
+    .mail.static {
+      cursor: text;
+      user-select: text;
+    }
+
     .copy {
       padding-block: 0.4rem;
       border-bottom: 1px solid currentColor;
@@ -293,12 +307,14 @@ export class Contact {
   protected readonly options = briefOptions;
   protected readonly year = 2026;
   protected readonly copied = signal(false);
+  /** True on mouse-driven devices, where the address is shown but not linked. */
+  protected readonly desktop = signal(false);
   protected readonly picked = signal<readonly string[]>([]);
 
   /** The sentence the visitor is composing, rebuilt from whichever chips are on. */
   protected readonly draft = computed(() => {
     const picked = this.picked();
-    if (!picked.length) return 'Hi Farves — pick a few and I’ll write the first line for you.';
+    if (!picked.length) return 'Pick what you’re looking for and your message to me will be drafted here.';
     return `Hi Farves — we’re looking for ${joinList(picked.map((item) => item[0].toLowerCase() + item.slice(1)))}. Let’s talk.`;
   });
 
@@ -315,7 +331,10 @@ export class Contact {
   constructor() {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     const motion = inject(Motion);
-    afterNextRender(() => motion.rise(host));
+    afterNextRender(() => {
+      this.desktop.set(motion.finePointer);
+      motion.rise(host);
+    });
   }
 
   protected toggle(option: string): void {
